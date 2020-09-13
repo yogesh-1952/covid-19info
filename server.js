@@ -10,8 +10,15 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.render("home");
+app.get("/", (request, response) => {
+  unirest.get("https://api.rootnet.in/covid19-in/stats/latest").
+  then((res)=>{
+    var statsObject=res.body;
+    var stats = statsObject.data.summary;
+    var stateStats = statsObject.data.regional;
+    stateStats.sort(function (a,b){return b.totalConfirmed-a.totalConfirmed});
+    response.render("home",{quickinfo:stats,stateInfo:stateStats});
+  });
 });
 
 app.get("/helpline", (request, response) => {
@@ -20,7 +27,6 @@ app.get("/helpline", (request, response) => {
   .then((res)=>{
     var contactObject = res.body;
     var newContact = Object.values(contactObject.data.contacts.regional);
-    console.log(newContact);
     response.render("helpline",{contactArray:newContact,primaryContacts:contactObject.data.contacts.primary});
   });
 });
@@ -54,7 +60,6 @@ app.get('/hospitals/colleges',function(request,response)
     {
         var medCollege=res.body;
         var medCollegeArr=medCollege.data.medicalColleges;
-
         response.render("colleges",{medCollegeArr:medCollegeArr})
     })
 });
