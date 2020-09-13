@@ -1,4 +1,12 @@
 <%- include("partials/header"); -%>
+
+
+<div class="center row">
+<div >
+<marquee behavior="" direction="">Important Notifications and Guidelines Regarding Covid 19</marquee>
+</div>
+<div class="center row ">
+
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -8,9 +16,9 @@
       <th scope="col">Link</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="myTable">
 <% for(var i = 1; i<notificationsArray.length;i++){ %>
-    <tr>
+    <tr  class="focus">
       <th scope="row"><%=i%></th>
       <% if(notificationsArray[i].title.substring(6,10)=="2020"){ %>
       <td><%=notificationsArray[i].title.substring(0,10)%></td>
@@ -27,5 +35,9 @@
 <% }; %>
   </tbody>
 </table>
+</div>
+</div>
+
+
 
 <%- include("partials/footer"); -%>
