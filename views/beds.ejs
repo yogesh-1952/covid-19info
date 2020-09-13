@@ -1,29 +1,54 @@
 <%- include("partials/header"); -%>
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">State Name</th>
-      <th scope="col">Rural hospitals</th>
-      <th scope="col">Rural beds</th>
-      <th scope="col">Urban Hospitals</th>
-      <th scope="col">Urban Beds</th>
-      <th scope="col">Total Hospitals</th>
-      <th scope="col">Total Beds(State Wise)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% hregionArr.forEach(function(el){ %>
-    <tr>
-      <td scope="row"><%=el.state%></td>
-      <td scope="row"><%= el.ruralHospitals%></td>
-      <td scope="row"><%= el.ruralBeds%></td>
-      <td scope="row"><%= el.urbanHospitals%></td>
-      <td scope="row"><%= el.urbanBeds%></td>
-      <td scope="row"><%= el.totalHospitals%></td>
-      <td scope="row"><%=el.totalBeds%></td>
-    </tr>
 
-   <% }) %>
-  </tbody>
-</table>
+<div class="center row">
+  <div >
+    <input
+      placeholder="Search by state"
+      id="search-input"
+      class="form-control"
+      type="text"
+    />
+  </div>
+  <div class="center row ">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">State Name</th>
+          <th scope="col">Rural hospitals</th>
+          <th scope="col">Rural beds</th>
+          <th scope="col">Urban Hospitals</th>
+          <th scope="col">Urban Beds</th>
+          <th scope="col">Total Hospitals</th>
+          <th scope="col">Total Beds(State Wise)</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        <% hregionArr.forEach(function(el){ %>
+        <tr class="focus" >
+          <td scope="row"><%=el.state%></td>
+          <td scope="row"><%= el.ruralHospitals%></td>
+          <td scope="row"><%= el.ruralBeds%></td>
+          <td scope="row"><%= el.urbanHospitals%></td>
+          <td scope="row"><%= el.urbanBeds%></td>
+          <td scope="row"><%= el.totalHospitals%></td>
+          <td scope="row"><%=el.totalBeds%></td>
+        </tr>
+
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $("#search-input").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
 <%- include("partials/footer"); -%>
