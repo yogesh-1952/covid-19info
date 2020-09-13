@@ -1,0 +1,30 @@
+<%- include("partials/header"); -%>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">State Name</th>
+      <th scope="col">Institute Name</th>
+      <th scope="col">City</th>
+      <th scope="col">Type</th>
+      <th scope="col">Admission Capacity</th>
+      <th scope="col">Hospital Beds</th>
+      <!-- <th scope="col">Total Beds(State Wise)</th> -->
+    </tr>
+  </thead>
+  <tbody>
+    <% medCollegeArr.forEach(function(el){ %>
+    <tr>
+      <td scope="row"><%=el.state%></td>
+      <td scope="row"><%= el.name%></td>
+      <td scope="row"><%= el.city%></td>
+      <td scope="row"><%= el.ownership%></td>
+      <td scope="row"><%= el.admissionCapacity%></td>
+      <td scope="row"><%= el.hospitalBeds%></td>
+
+    </tr>
+
+   <% }) %>
+  </tbody>
+
+</table>
+  <%- include("partials/footer"); -%>

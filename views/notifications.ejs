@@ -1,0 +1,31 @@
+<%- include("partials/header"); -%>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Title</th>
+      <th scope="col">Link</th>
+    </tr>
+  </thead>
+  <tbody>
+<% for(var i = 1; i<notificationsArray.length;i++){ %>
+    <tr>
+      <th scope="row"><%=i%></th>
+      <% if(notificationsArray[i].title.substring(6,10)=="2020"){ %>
+      <td><%=notificationsArray[i].title.substring(0,10)%></td>
+      <td><%=notificationsArray[i].title.substring(11)%></td>
+      <% }else if(notificationsArray[i].title.substring(8,9)==";"){ %>
+        <td>N/A</td>
+        <td><%=notificationsArray[i].title.substring(9)%></td>
+      <% }else{ %>
+        <td>N/A</td>
+        <td><%=notificationsArray[i].title.substring(8)%></td>
+      <% } %>
+      <td><a href="<%=notificationsArray[i].link%>"><%=notificationsArray[i].link%></a></td>
+    </tr>
+<% }; %>
+  </tbody>
+</table>
+
+<%- include("partials/footer"); -%>
