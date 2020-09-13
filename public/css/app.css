@@ -207,9 +207,13 @@ color: #28a745;
 
 .focus:hover
 {
-  -ms-transform: scale(1.05); 
-  transform: scale(1.05); 
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
   box-shadow: 0 0.4rem 1.4rem 0 rgba(0, 65, 109, 0.5);
   transform: translateY(-0.1rem);
   transition: transform 150ms;
+}
+
+.helpline{
+  width: 1350px;
 }
