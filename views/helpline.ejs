@@ -1,15 +1,15 @@
 <%- include("partials/header"); -%>
 
 <div class="center row">
-  <div>
+  <div >
     <input
-      placeholder="Search"
-      id="search-input"
+      placeholder="Search by State"
+      id="search"
       class="form-control"
       type="text"
     />
   </div>
-  <div class="center row helpline">
+  <div class="center row helpline ">
 
 <table class="table">
   <thead class="thead-dark">
@@ -19,10 +19,10 @@
       <th scope="col">Number</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="myTable">
 <% contactArray.forEach((contact,i)=>{ %>
-    <tr>
-      <th scope="row"><%=i+1%></th>
+    <tr class="focus">
+      <td scope="row"><%=i+1%></td>
       <td><%=contact.loc%></td>
       <td><%=contact.number%></td>
     </tr>
@@ -51,5 +51,28 @@
     </div>
   </div>
 </div>
+
+<script>
+ 
+$('#search').on('keyup',myFunction);
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  </script>
 
 <%- include("partials/footer"); -%>
