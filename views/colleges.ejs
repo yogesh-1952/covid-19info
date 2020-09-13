@@ -1,30 +1,65 @@
 <%- include("partials/header"); -%>
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">State Name</th>
-      <th scope="col">Institute Name</th>
-      <th scope="col">City</th>
-      <th scope="col">Type</th>
-      <th scope="col">Admission Capacity</th>
-      <th scope="col">Hospital Beds</th>
-      <!-- <th scope="col">Total Beds(State Wise)</th> -->
-    </tr>
-  </thead>
-  <tbody>
-    <% medCollegeArr.forEach(function(el){ %>
-    <tr>
-      <td scope="row"><%=el.state%></td>
-      <td scope="row"><%= el.name%></td>
-      <td scope="row"><%= el.city%></td>
-      <td scope="row"><%= el.ownership%></td>
-      <td scope="row"><%= el.admissionCapacity%></td>
-      <td scope="row"><%= el.hospitalBeds%></td>
 
-    </tr>
+<div class="center row">
+  <div>
+    <input
+      placeholder="Search by Institute Name"
+      id="search"
+      class="form-control"
+      type="text"
+    />
+  </div>
+  <div class="center row">
+    <table  class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">State Name</th>
+          <th scope="col">Institute Name</th>
+          <th scope="col">City</th>
+          <th scope="col">Type</th>
+          <th scope="col">Admission Capacity</th>
+          <th scope="col">Hospital Beds</th>
+          <!-- <th scope="col">Total Beds(State Wise)</th> -->
+        </tr>
+      </thead>
+      <tbody  id="myTable" >
+        <% medCollegeArr.forEach(function(el){ %>
+        <tr class="focus">
+          <td scope="row"><%=el.state%></td>
+          <td scope="row"><%= el.name%></td>
+          <td scope="row"><%= el.city%></td>
+          <td scope="row"><%= el.ownership%></td>
+          <td scope="row"><%= el.admissionCapacity%></td>
+          <td scope="row"><%= el.hospitalBeds%></td>
+        </tr>
 
-   <% }) %>
-  </tbody>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-</table>
-  <%- include("partials/footer"); -%>
+<script>
+ 
+$('#search').on('keyup',myFunction);
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  </script>
+
+<%- include("partials/footer"); -%>
