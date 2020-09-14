@@ -1,10 +1,16 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const unirest = require("unirest");
 const ejs = require("ejs");
-const port = 3000;
 
 const app = express();
+
+let port=process.env.PORT;
+if(port==null || port==""){
+  port=3000;
+};
+
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -69,5 +75,5 @@ app.get('/hospitals/colleges',function(request,response)
 });
 
 app.listen(port, () => {
-  console.log("Port 3000 started");
+  console.log("Listening on port 3000");
 });
