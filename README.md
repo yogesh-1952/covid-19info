@@ -1,6 +1,5 @@
-# covid19info
+# Project Title: COVID 19 INFORMATION CENTER
 
-Project Title: COVID 19 INFORMATION CENTER
 Functionality included:
 1)	COVID 19 contact and helpline information
 2)	Government important guidelines and notifications
@@ -22,3 +21,4 @@ a)	npm install
 b)	nodemon server.js
       How to  launch project in browser 
       Click on : http://covid-19infocenter.herokuapp.com/
+
