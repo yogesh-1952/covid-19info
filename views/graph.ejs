@@ -16,7 +16,7 @@
     <canvas id="chart"></canvas>
   </div>
 
-  <div class="dropdown">
+  <div class="dropdown dropdown-graph-filter">
     <label class="label-text">Choose a Filter:</label>
     <br />
     <input type="radio" class="state graphIn" name="choice" checked /> State
@@ -27,10 +27,10 @@
     <br />
     <input type="radio" class="age graphIn" name="choice" /> Age
     <br />
-    <button class="btn" id="submitButton" onclick="fn1()">Submit</button>
-    
+    <button class="btn btn-outline-info" id="submitButton" onclick="fn1()">Submit</button>
+
      <button
-          class="btn btn-outline-info"
+          class="btn btn-outline-info download"
           id="submitButton"
           onclick="fn2()"
         >Download Graph
@@ -45,13 +45,12 @@
           html2pdf().from(downloadGraph).save();
         });
       }
-  
+
     function fn1() {
       var state = document.querySelector(".state");
       var date = document.querySelector(".date");
       var gender = document.querySelector(".gender");
       var age = document.querySelector(".age");
-
       if (state.checked === true) {
         chartIt(sortByStatesD, sortByStatesR, sortByStatesH, 7);
       }
@@ -65,8 +64,6 @@
         chartIt(sortByAgeGroupsD, sortByAgeGroupsR, sortByAgeGroupsH, 3);
       }
     }
-
-
     var xlabels = [];
     var ylables = [],
       ylabels1 = [],
@@ -86,9 +83,7 @@
     chartIt(sortByStatesD, sortByStatesR, sortByStatesH, 7);
     async function chartIt(passedMapD, passedMapR, passedMapH, idx) {
       await getData(passedMapD, passedMapR, passedMapH, idx);
-
       var ctx = document.getElementById("chart").getContext("2d");
-
       //Destroy the previous chart;
       //Rename the "bar" according to your component
       if (window.myChart != undefined) window.myChart.destroy();
@@ -105,7 +100,6 @@
               borderWidth: 2,
               fill: false,
             },
-
             {
               label: "Deceased Persons",
               data: ylables,
@@ -114,7 +108,6 @@
               borderWidth: 3,
               fill: false,
             },
-
             {
               label: "Hospitalized Persons",
               data: ylables2,
@@ -127,7 +120,6 @@
         },
       });
     }
-
     async function getData(passedMapD, passedMapR, passedMapH, idx) {
       xlabels = [];
       ylables = [];
@@ -135,7 +127,6 @@
       ylables2 = [];
       const reponse = await fetch("covid19india.csv");
       const data = await reponse.text();
-
       const rows = data.split("\n").slice(1);
       //console.log(rows);
       rows.forEach((ele) => {
@@ -149,12 +140,10 @@
             passedMapD.set(key, 1);
           else if (passedMapD.has(key) && row[8] === "Deceased")
             passedMapD.set(key, parseFloat(passedMapD.get(key)) + 1);
-
           if (!passedMapR.has(key) && row[8] === "Recovered")
             passedMapR.set(key, 1);
           else if (passedMapR.has(key) && row[8] === "Recovered")
             passedMapR.set(key, parseFloat(passedMapR.get(key)) + 1);
-
           if (!passedMapH.has(key) && row[8] === "Hospitalized")
             passedMapH.set(key, 1);
           else if (passedMapH.has(key) && row[8] === "Hospitalized")
@@ -168,7 +157,6 @@
               parseFloat(passedMapD.get(row[idx])) + 1
             );
           }
-
           if (!passedMapR.has(row[idx]) && row[8] === "Recovered")
             passedMapR.set(row[idx], 1);
           else if (passedMapR.has(row[idx]) && row[8] === "Recovered")
@@ -176,7 +164,6 @@
               row[idx],
               parseFloat(passedMapR.get(row[idx])) + 1
             );
-
           if (!passedMapH.has(row[idx]) && row[8] === "Hospitalized")
             passedMapH.set(row[idx], 1);
           else if (passedMapH.has(row[idx]) && row[8] === "Hospitalized")
@@ -192,7 +179,6 @@
         passedMapD.delete("");
         passedMapD.delete("Details awaited");
       }
-
       for (let [key, value] of passedMapD) {
         xlabels.push(key);
       }
@@ -220,7 +206,6 @@
           if (value > max) max = value;
         } */
     }
-
     //ylables.push(max + 1);
     //console.log(passedMap);
   </script>
