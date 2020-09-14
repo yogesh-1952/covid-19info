@@ -21,6 +21,10 @@ app.get("/", (request, response) => {
   });
 });
 
+app.get("/graphs",(request,response) =>{
+  response.render("graph");
+});
+
 app.get("/helpline", (request, response) => {
 
   unirest.get("https://api.rootnet.in/covid19-in/contacts")
