@@ -1,78 +1,79 @@
+
 <%- include("partials/header"); -%>
 
 <div class="center row">
-  <div >
-    <input
-      placeholder="Search by State"
-      id="search"
-      class="form-control"
-      type="text"
-    />
-  </div>
-  <div class="center row helpline ">
+<div >
+  <input
+    placeholder="Search by State"
+    id="search"
+    class="form-control"
+    type="text"
+  />
+</div>
+<div class="center row helpline ">
 
 <table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">State</th>
-      <th scope="col">Number</th>
-    </tr>
-  </thead>
-  <tbody id="myTable">
+<thead class="thead-dark">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">State</th>
+    <th scope="col">Number</th>
+  </tr>
+</thead>
+<tbody id="myTable">
 <% contactArray.forEach((contact,i)=>{ %>
-    <tr class="focus">
-      <td scope="row"><%=i+1%></td>
-      <td><%=contact.loc%></td>
-      <td><%=contact.number%></td>
-    </tr>
+  <tr class="focus">
+    <td scope="row"><%=i+1%></td>
+    <td><%=contact.loc%></td>
+    <td><%=contact.number%></td>
+  </tr>
 <% }); %>
-  </tbody>
+</tbody>
 </table>
 </div>
 </div>
 
 <div class="row center primary-contacts">
-  <div class="col-sm-4">
-    Phone: <%=primaryContacts.number%>
+<div class="col-sm-4">
+  Phone: <%=primaryContacts.number%>
+</div>
+<div class="col-sm-4">
+  Tollfree Number: 1075
+</div>
+<div class="col-sm-4">
+  Email: <%=primaryContacts.email%>
+</div>
+<div class="row center primary-contacts links">
+  <div class="col-sm-6">
+    <a href="<%=primaryContacts.twitter%>"><i class="fab fa-twitter" aria-hidden="true"></i></a>
   </div>
-  <div class="col-sm-4">
-    Tollfree Number: 1075
+  <div class="col-sm-6">
+    <a href="<%=primaryContacts.facebook%>"><i class="fab fa-facebook" aria-hidden="true"></i></a>
   </div>
-  <div class="col-sm-4">
-    Email: <%=primaryContacts.email%>
-  </div>
-  <div class="row center primary-contacts links">
-    <div class="col-sm-6">
-      <a href="<%=primaryContacts.twitter%>"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-    </div>
-    <div class="col-sm-6">
-      <a href="<%=primaryContacts.facebook%>"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-    </div>
-  </div>
+</div>
 </div>
 
 <script>
- 
+
 $('#search').on('keyup',myFunction);
-  function myFunction() {
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("search");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[1];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }       
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("search");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
     }
   }
-  </script>
+}
+</script>
 
 <%- include("partials/footer"); -%>
