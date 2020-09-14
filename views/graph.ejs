@@ -28,9 +28,24 @@
     <input type="radio" class="age graphIn" name="choice" /> Age
     <br />
     <button class="btn" id="submitButton" onclick="fn1()">Submit</button>
+    
+     <button
+          class="btn btn-outline-info"
+          id="submitButton"
+          onclick="fn2()"
+        >Download Graph
+        </button>
   </div>
 
   <script>
+    function fn2() {
+        document.querySelector(".download").addEventListener("click", () => {
+          const downloadGraph = document.querySelector(".graph");
+          console.log(downloadGraph);
+          html2pdf().from(downloadGraph).save();
+        });
+      }
+  
     function fn1() {
       var state = document.querySelector(".state");
       var date = document.querySelector(".date");
