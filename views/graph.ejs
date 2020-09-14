@@ -1,3 +1,214 @@
 <%- include("partials/header"); -%>
 
+  <!-- <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="styles.css" /> -->
+<!-- </head>
+<body> -->
+
+
+
+  <div class="graph">
+    <canvas id="chart"></canvas>
+  </div>
+
+  <div class="dropdown">
+    <label class="label-text">Choose a Filter:</label>
+    <br />
+    <input type="radio" class="state graphIn" name="choice" checked /> State
+    <br />
+    <input type="radio" class="date graphIn" name="choice" /> Date
+    <br />
+    <input type="radio" class="gender graphIn" name="choice" /> Gender
+    <br />
+    <input type="radio" class="age graphIn" name="choice" /> Age
+    <br />
+    <button class="btn" id="submitButton" onclick="fn1()">Submit</button>
+  </div>
+
+  <script>
+    function fn1() {
+      var state = document.querySelector(".state");
+      var date = document.querySelector(".date");
+      var gender = document.querySelector(".gender");
+      var age = document.querySelector(".age");
+
+      if (state.checked === true) {
+        chartIt(sortByStatesD, sortByStatesR, sortByStatesH, 7);
+      }
+      if (date.checked === true) {
+        chartIt(sortByDatesD, sortByDatesR, sortByDatesH, 1);
+      }
+      if (gender.checked === true) {
+        chartIt(sortByGenderD, sortByGenderR, sortByGenderH, 4);
+      }
+      if (age.checked === true) {
+        chartIt(sortByAgeGroupsD, sortByAgeGroupsR, sortByAgeGroupsH, 3);
+      }
+    }
+
+
+    var xlabels = [];
+    var ylables = [],
+      ylabels1 = [],
+      ylabels2 = [];
+    const sortByDatesD = new Map(),
+      sortByGenderD = new Map(),
+      sortByStatesD = new Map(),
+      sortByAgeGroupsD = new Map(),
+      sortByDatesH = new Map(),
+      sortByGenderH = new Map(),
+      sortByStatesH = new Map(),
+      sortByAgeGroupsH = new Map(),
+      sortByDatesR = new Map(),
+      sortByGenderR = new Map(),
+      sortByStatesR = new Map(),
+      sortByAgeGroupsR = new Map();
+    chartIt(sortByStatesD, sortByStatesR, sortByStatesH, 7);
+    async function chartIt(passedMapD, passedMapR, passedMapH, idx) {
+      await getData(passedMapD, passedMapR, passedMapH, idx);
+
+      var ctx = document.getElementById("chart").getContext("2d");
+
+      //Destroy the previous chart;
+      //Rename the "bar" according to your component
+      if (window.myChart != undefined) window.myChart.destroy();
+      window.myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: xlabels,
+          datasets: [
+            {
+              label: "Recovered Persons",
+              data: ylables1,
+              backgroundColor: ["rgba(255, 255, 0, 1)"],
+              borderColor: ["rgba(255, 255, 0, 1)"],
+              borderWidth: 2,
+              fill: false,
+            },
+
+            {
+              label: "Deceased Persons",
+              data: ylables,
+              backgroundColor: ["rgba(0, 0, 255, 1)"],
+              borderColor: ["rgba(0, 0, 255, 1)"],
+              borderWidth: 3,
+              fill: false,
+            },
+
+            {
+              label: "Hospitalized Persons",
+              data: ylables2,
+              backgroundColor: ["rgba(0, 128, 0, 1)"],
+              borderColor: ["rgba(0, 128, 0, 1)"],
+              borderWidth: 1,
+              fill: false,
+            },
+          ],
+        },
+      });
+    }
+
+    async function getData(passedMapD, passedMapR, passedMapH, idx) {
+      xlabels = [];
+      ylables = [];
+      ylables1 = [];
+      ylables2 = [];
+      const reponse = await fetch("covid19india.csv");
+      const data = await reponse.text();
+
+      const rows = data.split("\n").slice(1);
+      //console.log(rows);
+      rows.forEach((ele) => {
+        const row = ele.split(",");
+        if (idx === 3 && row[idx] != "") {
+          var ageLowLim = Math.floor(parseFloat(row[idx]) / 10);
+          ageLowLim *= 10;
+          var ageUpLim = ageLowLim + 9;
+          var key = ageLowLim.toString() + "-" + ageUpLim.toString();
+          if (!passedMapD.has(key) && row[8] === "Deceased")
+            passedMapD.set(key, 1);
+          else if (passedMapD.has(key) && row[8] === "Deceased")
+            passedMapD.set(key, parseFloat(passedMapD.get(key)) + 1);
+
+          if (!passedMapR.has(key) && row[8] === "Recovered")
+            passedMapR.set(key, 1);
+          else if (passedMapR.has(key) && row[8] === "Recovered")
+            passedMapR.set(key, parseFloat(passedMapR.get(key)) + 1);
+
+          if (!passedMapH.has(key) && row[8] === "Hospitalized")
+            passedMapH.set(key, 1);
+          else if (passedMapH.has(key) && row[8] === "Hospitalized")
+            passedMapH.set(key, parseFloat(passedMapH.get(key)) + 1);
+        } else if (idx !== 3) {
+          if (!passedMapD.has(row[idx]) && row[8] === "Deceased") {
+            passedMapD.set(row[idx], 1);
+          } else if (passedMapD.has(row[idx]) && row[8] === "Deceased") {
+            passedMapD.set(
+              row[idx],
+              parseFloat(passedMapD.get(row[idx])) + 1
+            );
+          }
+
+          if (!passedMapR.has(row[idx]) && row[8] === "Recovered")
+            passedMapR.set(row[idx], 1);
+          else if (passedMapR.has(row[idx]) && row[8] === "Recovered")
+            passedMapR.set(
+              row[idx],
+              parseFloat(passedMapR.get(row[idx])) + 1
+            );
+
+          if (!passedMapH.has(row[idx]) && row[8] === "Hospitalized")
+            passedMapH.set(row[idx], 1);
+          else if (passedMapH.has(row[idx]) && row[8] === "Hospitalized")
+            passedMapH.set(
+              row[idx],
+              parseFloat(passedMapH.get(row[idx])) + 1
+            );
+        }
+        //console.log(row);
+      });
+      if (idx === 1) passedMapD.delete("Sabarkantha");
+      if (idx === 4) {
+        passedMapD.delete("");
+        passedMapD.delete("Details awaited");
+      }
+
+      for (let [key, value] of passedMapD) {
+        xlabels.push(key);
+      }
+      for (let [key, value] of passedMapR) {
+        if (!xlabels.includes(key)) xlabels.push(key);
+      }
+      for (let [key, value] of passedMapH) {
+        if (!xlabels.includes(key)) xlabels.push(key);
+      }
+      xlabels.sort();
+      xlabels.forEach((el) => {
+        if (passedMapD.has(el)) ylables.push(passedMapD.get(el));
+        else ylables.push(0);
+        if (passedMapR.has(el)) ylables1.push(passedMapR.get(el));
+        else ylables1.push(0);
+        if (passedMapH.has(el)) ylables2.push(passedMapH.get(el));
+        else ylables2.push(0);
+      });
+      console.log(ylables);
+      /* else {
+        var max = -1;
+        for (let [key, value] of passedMap) {
+          xlabels.push(key);
+          ylables.push(value);
+          if (value > max) max = value;
+        } */
+    }
+
+    //ylables.push(max + 1);
+    //console.log(passedMap);
+  </script>
+
+
 <%- include("partials/footer"); -%>
