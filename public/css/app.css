@@ -217,3 +217,60 @@ color: #28a745;
 .helpline{
   width: 1350px;
 }
+
+/* graph css */
+
+/* * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+} */
+
+.graph {
+  width: 60vw;
+  margin: 5% auto 5%;
+  border: 2px solid #d8d1fd;
+  box-shadow: 0 20px 50px rgba(59, 43, 91, 0.7);
+}
+
+.dropdown {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.label-text {
+  font-family: "DM Serif Display", serif;
+  font-size: 150%;
+  text-align: center;
+}
+
+.choose {
+  border: 2px solid #d8d1fd;
+  font-family: "Dosis", serif;
+  width: 200px;
+  margin: 5%;
+}
+
+graphIn {
+  margin-bottom: 3%;
+}
+
+.btn {
+  width: 100px;
+  height: 35px;
+  border: 1px solid #d8d1fd;
+  font-family: "DM Serif Display", serif;
+  background-color: #d8d1fd;
+  cursor: pointer;
+  margin: 5%;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .graph {
+    width: 200vw;
+  }
+}
