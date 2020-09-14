@@ -29,7 +29,8 @@ app.get("/helpline", (request, response) => {
       console.log(arrayInfo[0]);
       res.send(); */
       response.send("Hello");
-    });
+    }
+  );
 
 app.listen(port, () => {
   console.log("Port 3000 started");
