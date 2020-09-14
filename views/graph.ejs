@@ -32,20 +32,19 @@
      <button
           class="btn btn-outline-info download"
           id="submitButton"
-          onclick="fn2()"
         >Download Graph
         </button>
   </div>
 
   <script>
-    function fn2() {
+    
+    window.onload = function () {
         document.querySelector(".download").addEventListener("click", () => {
-          const downloadGraph = document.querySelector(".graph");
+          const downloadGraph = this.document.querySelector(".graph");
           console.log(downloadGraph);
           html2pdf().from(downloadGraph).save();
         });
-      }
-
+      };
     function fn1() {
       var state = document.querySelector(".state");
       var date = document.querySelector(".date");
